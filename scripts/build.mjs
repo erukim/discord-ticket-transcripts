@@ -64,7 +64,10 @@ await build({
   sourcemap: false,         // 소스맵 없음 = 역추적 차단
   treeShaking: true,
   legalComments: 'none',
-  logLevel: 'warning'
+  logLevel: 'warning',
+  define: {
+    __PKG_VERSION__: JSON.stringify(PKG.version)
+  }
 })
 
 // 3) terser 로 먼저 축약 (변수명 망글링 + 죽은 코드 제거)
