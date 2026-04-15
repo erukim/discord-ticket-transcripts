@@ -1,0 +1,36 @@
+# 소스 / 빌드 입력
+src/
+scripts/
+tests/
+tsconfig.json
+
+# 개발 설정
+.editorconfig
+.eslintrc*
+.prettierrc*
+.vscode/
+.idea/
+
+# Git
+.git/
+.github/
+.gitignore
+.gitattributes
+
+# 로그 / 임시
+*.log
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+coverage/
+node_modules/
+
+# 환경변수
+.env
+.env.*
+
+Save.md
+CHANGELOG.md.bak
+
+*.js.map
+*.d.ts.map
