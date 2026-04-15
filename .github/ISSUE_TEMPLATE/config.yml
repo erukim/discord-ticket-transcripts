@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Discussions
+    url: https://github.com/erukim/discord-ticket-transcripts/discussions
+    about: 사용법/질문은 Discussions 에서. 버그/제안은 아래 템플릿으로.

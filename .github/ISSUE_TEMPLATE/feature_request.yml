@@ -1,0 +1,50 @@
+name: ✨ Feature Request
+description: 새로운 기능이나 개선 아이디어를 제안합니다.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 해결하고자 하는 문제
+      description: 어떤 상황에서 불편하거나 부족함을 느꼈나요?
+      placeholder: 예) 티켓 아카이브 시 특정 카테고리의 채널만 필터링하고 싶습니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 제안하는 해결책
+      description: 어떻게 동작하면 좋을지 API 시그니처나 UX 관점에서 설명해주세요.
+      value: |
+        ```ts
+        TicketTranscript.create(channel, {
+          // 제안 옵션
+        })
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 대안
+      description: 검토했던 다른 접근법이나 워크어라운드가 있다면.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 추가 맥락
+      description: 스크린샷, 참고 링크, 관련 이슈 등.
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 핵심 원칙 준수 확인
+      description: 본 패키지는 다음 세 원칙을 깨지 않습니다.
+      options:
+        - label: 산출물이 HTML 파일 **1개**에 모두 담겨야 한다는 원칙에 부합합니다.
+          required: true
+        - label: 메시지 본문과 사용자 식별 정보를 **번역하지 않는다**는 원칙에 부합합니다.
+          required: true
