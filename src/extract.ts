@@ -15,12 +15,12 @@ export async function extract(input: string | Buffer): Promise<TicketTranscriptD
   const match = html.match(
     /<script id="ticket-data"[^>]*>([\s\S]*?)<\/script>/
   )
-  if (!match) throw new Error('티켓 데이터 스크립트를 찾지 못했습니다.')
-  const json = match[1]
-    .replace(/\\u003c/g, '<')
-    .replace(/\\u003e/g, '>')
-    .replace(/\\u0026/g, '&')
-  return JSON.parse(json) as TicketTranscriptData
+  if (!match) {
+    throw new Error('ticket-data script tag not found in transcript HTML.')
+  }
+  // JSON.parse natively decodes \uXXXX escape sequences that escapeJsonForScript
+  // emits for <, >, & — no manual unescape needed.
+  return JSON.parse(match[1]) as TicketTranscriptData
 }
 
 /** 디렉토리 내 모든 HTML 티켓 파일을 스캔해서 통계 집계 */
