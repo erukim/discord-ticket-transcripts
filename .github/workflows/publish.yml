@@ -1,0 +1,72 @@
+name: Publish to npm
+
+# GitHub에서 Release를 "published" 상태로 만들 때만 배포.
+# - draft 저장만으로는 트리거 안 됨 (published 필요)
+# - 단순 git push / tag push 로는 배포 안 됨
+# - 긴급 수동 배포는 workflow_dispatch 로 가능
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'npm dist-tag (기본 latest, 프리릴리즈는 beta 등)'
+        required: false
+        default: 'latest'
+
+concurrency:
+  group: publish-npm
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write   # npm --provenance (OIDC) 서명에 필요
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify package.json version matches release tag
+        if: github.event_name == 'release'
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG=$(node -p "require('./package.json').version")
+          echo "release tag (stripped v): $TAG"
+          echo "package.json version:     $PKG"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::Release tag ($TAG) does not match package.json version ($PKG)."
+            exit 1
+          fi
+
+      - name: Build (obfuscated bundle + types)
+        run: npm run build
+
+      - name: Smoke test build output
+        run: |
+          node -e "const m=require('./dist'); if(!m.create||!m.extract) throw new Error('missing exports'); console.log('exports OK:', Object.keys(m).sort().join(', '))"
+          test -f dist/index.d.ts
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+        run: |
+          TAG="${{ github.event.inputs.tag || 'latest' }}"
+          # release가 prerelease로 표시돼 있으면 자동으로 beta 태그
+          if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+            TAG="beta"
+          fi
+          echo "publishing with dist-tag: $TAG"
+          npm publish --access public --tag "$TAG"
