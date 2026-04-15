@@ -17,7 +17,7 @@
     "lint:fix": "eslint --fix \"src/**/*.ts\" \"tests/**/*.ts\" \"scripts/**/*.mjs\"",
     "prepublishOnly": "npm run build",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "npm:update": "npm version patch && npm install && npm run clean && npm run build && npm publish --access public --provenance"
+    "npm:update": "npm version patch && npm install && npm run clean && npm run build && npm publish --access public"
   },
   "peerDependencies": {
     "discord.js": "^14.0.0"
