@@ -7,6 +7,7 @@ tsconfig.json
 # 개발 설정
 .editorconfig
 .eslintrc*
+eslint.config.*
 .prettierrc*
 .vscode/
 .idea/

@@ -64,7 +64,6 @@ async function fetchAllMessages(
   const all: Message[] = []
   let before: string | undefined
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     const remaining = Math.min(100, limit - all.length)
     if (remaining <= 0) break
