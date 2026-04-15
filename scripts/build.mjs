@@ -22,7 +22,7 @@
 import { execSync } from 'node:child_process'
 import { readFile, writeFile, rm, stat, readdir, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { join, dirname } from 'node:path'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
