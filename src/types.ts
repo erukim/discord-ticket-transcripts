@@ -42,6 +42,18 @@ export interface CreateOptions {
   inlineAssets?: boolean
   /** 인라인 임베드 대상 최대 파일 크기(byte). 넘어가면 URL만 저장 */
   maxAssetSize?: number
+  /**
+   * 추가로 fetch 를 허용할 호스트 접미사 목록. 예: `['cdn.mycorp.com']`.
+   * 기본적으로 Discord CDN (`discordapp.com`, `discordapp.net`, `discord.com`,
+   * `discord.media`) 만 허용됩니다. embed 의 이미지/아이콘 URL 은 사용자가
+   * 임의로 지정할 수 있어 SSRF 벡터가 되므로 호스트가 다르면 inline 을 건너뜁니다.
+   */
+  allowedAssetHosts?: string[]
+  /**
+   * 호스트 검증 자체를 끄고 모든 URL 을 fetch. **불신 출처 메시지가 섞인
+   * 채널에서는 사용 금지** — 내부망 스캔·메타데이터 탈취 위험이 있습니다.
+   */
+  allowAllAssetHosts?: boolean
   /** 메시지 수집 상한 (기본 무제한) */
   limit?: number
   /** 반환 파일명 (기본 ticket-<id>.html) */
