@@ -12,8 +12,7 @@ import { collectMessages, inferGuildChannelName } from './collectors/messages'
 import { collectViewers } from './collectors/viewers'
 import { renderHtml } from './renderer/template'
 import { resolveLanguages } from './i18n'
-
-const VERSION = '0.1.0'
+import { VERSION } from './version'
 
 /**
  * 티켓 채널의 모든 데이터를 수집해서 HTML 파일 1개로 반환.
@@ -25,7 +24,9 @@ export async function create(
 ): Promise<TranscriptFile> {
   const assets = new AssetCache({
     enabled: options.inlineAssets !== false,
-    maxSize: options.maxAssetSize
+    maxSize: options.maxAssetSize,
+    allowedHosts: options.allowedAssetHosts,
+    allowAllHosts: options.allowAllAssetHosts
   })
 
   const i18n = resolveLanguages(options.languages, options.defaultLanguage)
